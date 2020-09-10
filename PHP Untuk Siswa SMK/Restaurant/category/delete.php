@@ -2,7 +2,7 @@
 
 require_once '../function.php';
 
-$sql = "DELETE FROM category WHERE id = $id";
+$sql = "DELETE FROM tblkategori WHERE idkategori = $id";
 
 mysqli_query($conn, $sql);
 

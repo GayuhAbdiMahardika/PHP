@@ -16,7 +16,7 @@ if(isset($_GET['update'])){
 
 
 
-$query = "SELECT id FROM category";
+$query = "SELECT idkategori FROM tblkategori";
 $result = mysqli_query($conn, $query);
 
 $data_amount = mysqli_num_rows($result);
@@ -37,7 +37,7 @@ if(isset($_GET['p'])){
     $start = 0;
 }
 
-$query = "SELECT * FROM category LIMIT $start, $amount_per_page";
+$query = "SELECT * FROM tblkategori LIMIT $start, $amount_per_page";
 $result =  mysqli_query($conn, $query);
 //var_dump($result);
 $count = mysqli_num_rows($result);
@@ -56,8 +56,8 @@ if($count > 0){
     while($row = mysqli_fetch_assoc($result)){
         echo '<tr>'. 
         '<td>'.$no++.'</td>'.
-        '<td>'.$row['category'].'</td>'.
-        '<td><a href="?delete='.$row['id'].'">Delete</a>  |  <a href="?update='.$row['id'].'">Update</a></td>'.
+        '<td>'.$row['kategori'].'</td>'.
+        '<td><a href="?delete='.$row['idkategori'].'">Delete</a>  |  <a href="?update='.$row['idkategori'].'">Update</a></td>'.
         '</tr>' 
         ;
     }
@@ -75,7 +75,7 @@ echo '</table>'
         <?php //while($row = mysqli_fetch_assoc($result)): ?>
             <tr> 
             <td><?= $no++ ?></td>
-            <td><?= $row['category'] ?> </td>
+            <td><?= $row['tblkategori'] ?> </td>
             </tr> 
         <?php //endwhile ?>
      </table> -->
