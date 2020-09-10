@@ -5,7 +5,7 @@
         private $host = "127.0.0.1";
         private $user = "root";
         private $pass = '';
-        private $db = 'restaurant';
+        private $db = 'dbrestoran';
         private $conn;
 
         public function __construct()
@@ -13,9 +13,20 @@
             $this->conn = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
         }
 
-        public function getAll()
+
+// Dengan method ini dapat mengambil semua data dari tblkategori tanpa memasukkan syntax SQL ke parameter
+        // public function getAll()
+        // {
+        //     $sql = "SELECT * FROM tblkategori";
+        //     $result = mysqli_query($this->conn, $sql);
+        //     while ($row=mysqli_fetch_assoc($result)){
+        //         $data[] = $row;
+        //     }
+        //     return $data;
+        // }
+
+        public function getALL($sql)
         {
-            $sql = "SELECT * FROM category";
             $result = mysqli_query($this->conn, $sql);
             while ($row=mysqli_fetch_assoc($result)){
                 $data[] = $row;
@@ -23,18 +34,36 @@
             return $data;
         }
 
-        public function getById($id)
+
+//Dengan method ini dapat mengambil data dari tblkategori tanpa memasukkan syntax SQL ke parameter, hanya perlu memasukkan id langsung ke paramater
+//Contoh : $db->getById(10)
+        // public function getById($id)
+        // {
+        //     $sql = "SELECT * FROM tblkategori WHERE idkategori=$id";
+        //     $result = mysqli_query($this->conn, $sql);
+        //     return mysqli_fetch_assoc($result);
+        // }
+
+        public function getITEM($sql)
         {
-            $sql = "SELECT * FROM category WHERE id=$id";
             $result = mysqli_query($this->conn, $sql);
-            return mysqli_fetch_assoc($result);
+            $row = mysqli_fetch_assoc($result);
+            return $row;
         }
 
-        public function rowCount()
+//Method ini dapat berjalan tanpa parameter syntax SQL
+        // public function rowCount()
+        // {
+        //     $sql = "SELECT * FROM tblkategori";
+        //     $result = mysqli_query($this->conn, $sql);
+        //     return mysqli_num_rows($result);
+        // }
+
+        public function rowCount($sql)
         {
-            $sql = "SELECT * FROM category";
             $result = mysqli_query($this->conn, $sql);
-            return mysqli_num_rows($result);
+            $count = mysqli_num_rows($result);
+            return $count;
         }
 
         public function runSQL($sql)
@@ -47,5 +76,9 @@
             echo $text;
         }
     }
+
+    $db=new DB;
+    $l = $db->getITEM("SELECT * FROM tblkategori WHERE idkategori=2");
+    var_dump($l);
 
 ?>
