@@ -31,7 +31,10 @@
             while ($row=mysqli_fetch_assoc($result)){
                 $data[] = $row;
             }
-            return $data;
+            if(!empty($data)){
+               return $data; 
+            }
+            
         }
 
 
@@ -77,8 +80,5 @@
         }
     }
 
-    $db=new DB;
-    $l = $db->getITEM("SELECT * FROM tblkategori WHERE idkategori=2");
-    var_dump($l);
-
+    $db = new DB;
 ?>
