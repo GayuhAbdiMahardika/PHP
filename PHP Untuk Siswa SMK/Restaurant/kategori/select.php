@@ -29,14 +29,16 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach($row as $r): ?>
-        <tr>
-            <td><?= $a++ ?></td>
-            <td><?= $r['kategori'] ?></td>
-            <td> <a href="?f=kategori&m=delete&id=<?= $r['idkategori'] ?>">Delete</a> </td>
-            <td> <a href="?f=kategori&m=update&id=<?= $r['idkategori'] ?>">Update</a> </td>
-        </tr>
-        <?php endforeach; ?>
+        <?php if(!empty($row)) :?>
+            <?php foreach($row as $r): ?>
+            <tr>
+                <td><?= $a++ ?></td>
+                <td><?= $r['kategori'] ?></td>
+                <td> <a href="?f=kategori&m=delete&id=<?= $r['idkategori'] ?>">Delete</a> </td>
+                <td> <a href="?f=kategori&m=update&id=<?= $r['idkategori'] ?>">Update</a> </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endif?>
     </tbody>
 </table>
 
