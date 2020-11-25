@@ -5,6 +5,11 @@
     $sql = "SELECT * FROM tblkategori ORDER BY kategori";
     $row=$db->getALL($sql);
 
+    if(isset($_GET['log'])){
+        session_destroy();
+        header(('location:index.php'));
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -18,14 +23,17 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 mt-4">
                 <h2> <a href="index.php">Restoran Padika</a> </h2>
             </div>
             <div class="col md-9">
-                <div class="float-right mt-3 "> logout</div>
-                <div class="float-right mt-3 mr-4"> <a href="admin">login</a></div>
-                <div class="float-right mt-3 mr-4">Pelanggan</div>
-                <div class="float-right mt-3 mr-4">Daftar</div>
+                <?php if(isset($_SESSION['pelanggan'])) :?>
+                <div class="float-right mt-3 "> <a href="?log=logout">logout</a></div>
+                <div class="float-right mt-3 mr-4">  Pelanggan: <a href="?f=home&m=beli"><?= $_SESSION['pelanggan'] ?> </a></div>
+                <?php else: ?>
+                <div class="float-right mt-3 mr-4"> <a href="?f=home&m=login">login</a></div>
+                <div class="float-right mt-3 mr-4"> <a href="?f=home&m=daftar">Daftar</a></div>
+                <?php endif ?>
             </div>
         </div>
 

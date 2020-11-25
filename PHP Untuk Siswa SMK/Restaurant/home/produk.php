@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <h5 class="card-title"><?= $r['menu'] ?></h5>
                     <p class="card-text"><?= $r['harga'] ?></p>
-                    <a href="?f=user&m=insert" class="btn btn-primary float-left mr-4">Beli</a>
+                    <a href="?f=home&m=beli&id=<?= $r['idmenu'] ?>" class="btn btn-primary float-left mr-4">Beli</a>
                 </div>
             </div>
         <?php endforeach; ?>
