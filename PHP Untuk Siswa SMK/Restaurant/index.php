@@ -10,6 +10,26 @@
         header(('location:index.php'));
     }
 
+    function cart(){
+        global $db;
+    
+        $cart = 0;
+        foreach($_SESSION as $k => $v){
+            if($k != 'pelanggan' && $k != 'idpelanggan'){
+                $id = substr($k,1);
+    
+                $sql = "SELECT * FROM tblmenu WHERE idmenu=$id";
+                $row = $db->getALL($sql);
+    
+                foreach ($row as $r){
+                    $cart++;
+                }
+            }
+        }
+        return $cart;
+    }
+
+    cart();
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +49,9 @@
             <div class="col md-9">
                 <?php if(isset($_SESSION['pelanggan'])) :?>
                 <div class="float-right mt-3 "> <a href="?log=logout">logout</a></div>
-                <div class="float-right mt-3 mr-4">  Pelanggan: <a href="?f=home&m=beli"><?= $_SESSION['pelanggan'] ?> </a></div>
+                <div class="float-right mt-3 mr-4">  Pelanggan:<?= $_SESSION['pelanggan'] ?></div>
+                <div class="float-right mt-3 mr-4">  Cart: ( <a href="?f=home&m=beli"><?= cart() ?> </a>)</div>
+                <div class="float-right mt-3 mr-4"> <a href="?f=home&m=histori">Histori</a></div>
                 <?php else: ?>
                 <div class="float-right mt-3 mr-4"> <a href="?f=home&m=login">login</a></div>
                 <div class="float-right mt-3 mr-4"> <a href="?f=home&m=daftar">Daftar</a></div>
