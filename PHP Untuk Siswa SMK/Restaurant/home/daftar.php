@@ -1,56 +1,72 @@
-<h1>Insert Pelanggan </h1>
+<h3>Registrasi</h3>
+
 <div class="form-group">
+
+
     <form action="" method="post">
         <div class="form-group w-50">
-            <label for="">Nama pelanggan</label>
-            <input type="text" name="pelanggan" id="" class="form-control" required placeholder="nama pelanggan">
+            <label for="">Pelanggan</label>
+            <input type="text"name="pelanggan" required placeholder="Nama pelanggan" class="form-control">
         </div>
-        </div>
+
         <div class="form-group w-50">
             <label for="">Alamat</label>
-            <input type="text" name="alamat" id="" class="form-control" required placeholder="alamat">
+            <input type="text"name="alamat" required placeholder="Alamat" class="form-control">
         </div>
+
+
         <div class="form-group w-50">
-            <label for="">telp</label>
-            <input type="text" name="telp" id="" class="form-control" required placeholder="telp">
+            <label for="">No.Telpon</label>
+            <input type="text"name="telp" required placeholder="No. Telpon" class="form-control">
         </div>
+
         <div class="form-group w-50">
-            <label for="">email</label>
-            <input type="email" name="email" id="" class="form-control" required placeholder="email">
+            <label for="">Email</label>
+            <input type="email"name="email" required placeholder="Email" class="form-control">
         </div>
+
         <div class="form-group w-50">
             <label for="">Password</label>
-            <input type="password" name="password" id="" class="form-control" required placeholder="password">
+            <input type="password"name="password" required placeholder="password" class="form-control">
         </div>
+
         <div class="form-group w-50">
             <label for="">Konfirmasi Password</label>
-            <input type="password" name="konfirmasi" id="" class="form-control" required placeholder="password">
+            <input type="password"name="konfirmasi" required placeholder="password" class="form-control">
         </div>
+
+       
+
         <div>
-            <input type="submit" value="simpan" class="btn btn-primary" name="simpan">
+        
+            <input type="submit" name="simpan" value="simpan" class="btn btn-primary">
+        
         </div>
-    </form>
+        </form>
+
 </div>
 
 <?php 
 
-    if(isset($_POST['simpan'])){
+    if (isset($_POST['simpan'])) {
         $pelanggan = $_POST['pelanggan'];
         $alamat = $_POST['alamat'];
-        $email = $_POST['email'];
         $telp = $_POST['telp'];
-        $password = $_POST['password'];
-        $konfirmasi = $_POST['konfirmasi'];
+        $email = $_POST['email'];
+        $password = hash('sha256',$_POST['password']);
+        $konfirmasi = hash('sha256',$_POST['konfirmasi']);
         
-        if($password === $konfirmasi){
+
+        if ($password === $konfirmasi ) {
             $sql = "INSERT INTO tblpelanggan VALUES ('','$pelanggan','$alamat','$telp','$email','$password',1)";
+            // echo $sql;
             $db->runSQL($sql);
-
-            header('location:?f=home&m=info');
-        } else {
-            echo "<h2>Password Tidak Sesuai Konfirmasi</h2>";
+            header("location:?f=home&m=info");
+        }else {
+            echo "<h2> Password Anda Tidak Sesuai Konfirmasi</h2>";
         }
-
+        
+       
     }
 
 ?>

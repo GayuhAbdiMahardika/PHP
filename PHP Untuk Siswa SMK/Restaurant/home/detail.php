@@ -18,7 +18,7 @@
     $a=1+$mulai;
 ?>
 
-<h3 class="mb-4">Gistori Pemebelian</h3>
+<h3 class="mb-4">Histori Pembelian</h3>
 
 <table class="table table-bordered w-70">
     <thead>

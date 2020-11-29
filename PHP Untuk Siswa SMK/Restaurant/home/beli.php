@@ -1,61 +1,73 @@
-<h3>Keranjang Belanja</h3>
+<h3>Daftar Belanja</h3><hr>
 
 <?php 
-    if(isset($_GET['hapus'])){
-        $id = $_GET['hapus'];
 
-        unset($_SESSION['_'.$id]);
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    unset($_SESSION['_'.$id]);
+    header("location:?f=home&m=beli");
 
-        header("location:?f=home&m=beli");
+    
+}
+
+    if (isset($_GET['tambah'])) {
+       $id = $_GET['tambah'];
+       $_SESSION['_'. $id]++;
     }
 
-    if(isset($_GET['tambah'])){
-        $id = $_GET['tambah'];
-
-        $_SESSION['_'.$id]++;
-    }
-
-    if(isset($_GET['kurang'])){
+    if (isset($_GET['kurang'])) {
         $id = $_GET['kurang'];
+        $_SESSION['_'. $id]--;
 
-        $_SESSION['_'.$id]--;
-
-        if($_SESSION['_'.$id] == 0){
-            unset($_SESSION['_'.$id]);
+        if ($_SESSION['_'. $id]==0) {
+           unset($_SESSION['_'.$id]);
         }
+        
+     }
+ 
 
-        header("location:?f=home&m=beli");
-    }
+    if (!isset($_SESSION['pelanggan'])) {
+        header("location:?f=home&m=login");
 
-    if(!isset($_SESSION['pelanggan'])){
-        header('location:?f=home&m=login');
-    } else {
-        if(isset($_GET['id'])){
+    }else{
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
             $id = $_GET['id'];
             isi($id);
-            header('location:?f=home&m=beli');
-        }else{
+           header("location:?f=home&m=beli");
+        }else {
             keranjang();
         }
+
     }
 
 
-        function isi($id){
-            if(isset($_SESSION['_'.$id])){
-                $_SESSION['_'.$id]++;
-            } else {
-                $_SESSION['_'.$id]=1;
-            }
+    
+
+    function isi($id)
+    {
+        if (isset($_SESSION['_'.$id])) {
+            $_SESSION['_'.$id]++;
+        }else {
+            $_SESSION['_'.$id]=1;
         }
+    }
 
-        function keranjang(){ 
-            global $db;
-            $total = 0;
+    function keranjang()
+    {
 
-            global $total;
-            echo'
-            <table class="table table-bordered w-70">
-            <thead>
+        global $db;
+
+        $total = 0;
+
+
+        global $total;
+
+
+        echo '
+        
+                <table class="table table-bordered w-70">
+           
                 <tr>
                     <th>Menu</th>
                     <th>Harga</th>
@@ -63,42 +75,56 @@
                     <th>Total</th>
                     <th>Hapus</th>
                 </tr>
-            </thead>';
+            
+            
+        
+        
+        ';
 
-            foreach($_SESSION as $k => $v){
-                if($k != 'pelanggan' && $k != 'idpelanggan'){
-                    $id = substr($k,1);
+        foreach ($_SESSION as $key => $value) {
+            if ($key<>'pelanggan' && $key<>'idpelanggan' && $key<>'user' && $key<>'level' && $key<>'iduser') {
+                $id = substr($key,1);
 
-                    $sql = "SELECT * FROM tblmenu WHERE idmenu=$id";
-                    $row=$db->getALL($sql);
+                $sql = "SELECT * FROM tblmenu WHERE idmenu=$id";
 
-                    foreach($row as $r){
-                    echo '
-                    <tr>
-                        <td>'.$r['menu'].'</td>
-                        <td>'.$r['harga'].'</td>
-                        <td> <a href="?f=home&m=beli&tambah='.$r['idmenu'].'"> [+] </a> &nbsp &nbsp'.$v.'&nbsp &nbsp <a href="?f=home&m=beli&kurang='.$r['idmenu'].'"> [-]</a></td>
-                        <td>'.$r['harga']*$v.'</td>
-                        <td><a href="?f=home&m=beli&hapus='.$r['idmenu'].'">Hapus</a></td>
-                    </tr>';
-                    $total = $total+($v*$r['harga']);             
-                    }
+                $row = $db->getALL($sql);
+
+                foreach ($row as $r) {
+                    echo ' <tr>';
+                   echo '<td>'. $r['menu']. '</td>';
+                   echo '<td>Rp.'. $r['harga']. '</td>';
+                   echo '<td><a href="?f=home&m=beli&tambah='.$r['idmenu'].'">[+]</a>&nbsp &nbsp'. $value. '&nbsp &nbsp<a href="?f=home&m=beli&kurang='.$r['idmenu'].'">[-]</a></td>';
+                   echo '<td>Rp.'. $r['harga'] * $value. '</td>';
+                   echo '<td> <a href="?f=home&m=beli&hapus='.$r['idmenu'].'">Hapus</a></td>';
+                   echo '</tr>';
+                   $total = $total + ($value * $r['harga']);
+
                 }
-            }
 
-            echo '<tr>
-                <td colspan=4><h3>GRAND TOTAL : </h3></td>
-                <td><h3>'.$total.'</h3></td>
-                </tr>
-            ';
-            echo ' 
-            </table>';
+                
+            }
+           
+            
         }
 
+        echo '<tr>
+            <td colspan=4><h3>Harga Total</h3></td>
+            <td><h3>Rp.'.$total.'</h3></td>
+        </tr>';
 
-if(!empty($total)){   
+        echo '</table>';
+    }
+
+
+if (!empty($total)) {
+    
+
+
 ?>
-<a href="?f=home&m=checkout&total=<?= $total ?>" class="btn btn-primary float-left mr-4">Checkout</a>
+
+<a class="btn btn-primary" href="?f=home&m=checkout&total=<?php echo $total?>" role="button">Check out</a>
+
 <?php 
+
 }
 ?>

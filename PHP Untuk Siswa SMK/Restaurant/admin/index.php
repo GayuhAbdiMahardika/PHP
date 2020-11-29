@@ -1,14 +1,17 @@
-<?php
-    session_start();
-    require_once '../DB_Controller.php';
+<?php 
 
-    if(!isset($_SESSION['user'])){
+    session_start();
+    require_once "../DB_Controller.php";
+
+    if (!isset($_SESSION['user'])) {
         header("location:login.php");
     }
-    if(isset($_GET['log'])){
+
+    if (isset($_GET['log'])) {
         session_destroy();
         header("location:index.php");
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -21,45 +24,82 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h2>Restoran</h2>
-            </div>
-            <div class="col md-9">
-                <div class="float-right mt-3"> <a href="?log=logout"> logout</a></div>
-                <div class="float-right mt-3 mr-4">User: <a href="?f=user&m=updateuser&id=<?= $_SESSION['iduser'] ?>"><?= $_SESSION['user'] ?></a> </div>
-            </div>
+
+     <div class="row mt-4">
+        <div class="col-md-3">
+           <a href="index.php"><h3>Admin Page</h3></a> 
         </div>
 
-        <div class="row mt-5">
-            <div class="col-md-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a href="?f=kategori&m=select" class="nav-link">Kategori</a></li>
-                    <li class="nav-item"><a href="?f=menu&m=select" class="nav-link">Menu</a></li>
-                    <li class="nav-item"><a href="?f=pelanggan&m=select" class="nav-link">Pelanggan</a></li>
-                    <li class="nav-item"><a href="?f=order&m=select" class="nav-link">Order</a></li>
-                    <li class="nav-item"><a href="?f=orderdetail&m=select" class="nav-link">Order Detail</a></li>
-                    <li class="nav-item"><a href="?f=user&m=select" class="nav-link">User</a></li>
-                </ul>            
-            </div>
-            <div class="col-md-9">
-                <?php 
-                    if(isset($_GET['f']) && isset($_GET['m'])){
-                        $f = $_GET['f'];
-                        $m = $_GET['m'];
+        <div class="col-md-9">
+            <div class="float-right mt-4"><a href="?log=logout">logout</a></div>
+            <div class="float-right mt-4 mr-4">User : <a href="?f=user&m=updateuser&id=<?php echo $_SESSION['iduser'];?>"><?php echo $_SESSION['user'];?></a></div>
+            <div class="float-right mt-4 mr-4">Level : <?php echo $_SESSION['level']?></div>
 
-                        $file = '../'.$f.'/'.$m.'.php';
-                        require_once $file;
-                    }
-                ?>
-            </div>
         </div>
+     </div>
+
+     <div class="row mt-5">
+        <div class="col-md-3">
         
-        <div class="row">
-            <div class="col">
-                <p class="text-center">2020 - copyright@smkrevit.com</p>
-            </div>
+            <ul class="nav flex-column ">
+
+            <?php 
+            
+                $level = $_SESSION['level'];
+                switch ($level) {
+                    case 'admin':
+                       echo '
+                       <li class="nav-item"><a class="nav-link" href="?f=kategori&m=select">kategori</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?f=menu&m=select">menu</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?f=pelanggan&m=select">pelanggan</a></li>                
+                    <li class="nav-item"><a class="nav-link" href="?f=user&m=select">user</a></li>                      
+                       ';
+                        break;
+
+                        case 'kasir':
+                            echo '
+                            <li class="nav-item"><a class="nav-link" href="?f=order&m=select">order</a></li>
+                            <li class="nav-item"><a class="nav-link" href="?f=order_detail&m=select">Order detail</a></li>';
+                            break;
+
+                            case 'koki':
+                                echo '
+                                <li class="nav-item"><a class="nav-link" href="?f=order_detail&m=select">order detail</a></li>
+                                ';
+                                break;
+                    
+                    default:
+                       echo 'Tidak Ada Menu';
+                        break;
+                }
+            
+            ?>                
+            </ul>
         </div>
+
+        <div class="col-md-9">
+         <?php 
+       
+            if (isset($_GET['f']) && isset($_GET['m'])) {
+                $f=$_GET['f'];
+                $m=$_GET['m'];
+                
+                $file = '../' . $f . '/' . $m . '.php';
+
+                require_once $file;
+            }
+       
+          ?>
+        </div>
+     </div>
+
+     <div class="row mt-5">
+
+        <div class="col">
+        <p class= "text-center"> 2020 - copyright smk</p>
+        </div>
+    
+     </div>
     </div>
 </body>
 </html>
