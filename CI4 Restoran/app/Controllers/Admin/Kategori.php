@@ -1,39 +1,88 @@
 <?php namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Models\Kategori_M;
+use App\Models\kategori_M;
 
-class Kategori extends BaseController
+class kategori extends BaseController
 {
 	public function index()
 	{
-		echo 'Belajar';
+		// return view('welcome_message');
+
+		echo "belajar";
 	}
 
-	public function select()
+	public function read()
 	{
-		$model = new Kategori_M();
-		$kategori = $model->findAll();
+
+		$pager = \Config\Services::pager();
+		$model = new kategori_M();
+		
+		$data = [
+			'judul' => 'DATA KATEGORI',
+		
+			'kategori' => $model->paginate(3,'group1'),
+            'pager' => $model->pager
+		];
+
+		return view("kategori/select",$data);
+		
+	}
+
+	public function create()
+	{
+		
+		return view("kategori/insert");
+		
+	}
+
+	public function insert()
+	{
+	
+		$model = new kategori_M();
+
+		if ($model-> insert($_POST)===false) {
+			$error = $model->errors();
+			session()->setFlashdata('info', $error['kategori']);
+			return redirect()->to(base_url("/Admin/kategori/create"));
+		} else {
+			return redirect()->to(base_url("/Admin/kategori"));
+		}
+		
+		
+
+		
+	}
+
+	public function find($id = null)
+	{
+		$model = new kategori_M();
+		$kategori = $model ->find($id);
 
 		$data = [
-			'judul' => "SELECT DATA DARI CONTROLLER",
+			'judul' => 'UPDATE DATA ',
 			'kategori' => $kategori
 		];
-		echo view('kategori/select.php',$data);
+		return view("kategori/update",$data);
 	}
 
-	public function formInsert($id=null, $nama=null)
+	public function update()
 	{
-		echo view('kategori/forminsert.php');
+		
+		$model = new kategori_M();
+		$model->save($_POST);
+		return redirect()->to(base_url("/Admin/kategori"));
 	}
 
-	public function formUpdate($id=null)
+	public function delete($id = null)
 	{
-		echo view('template/header.php');
-		echo view('kategori/update.php');
-		echo view('template/footer.php');
+		$model = new kategori_M();
+		$model-> delete($id);
+		return redirect()->to(base_url("/Admin/kategori"));
+
+		
 	}
 
-	//--------------------------------------------------------------------
+	
 
 }
