@@ -8,7 +8,6 @@ class Menu extends BaseController
 {
 	public function index()
 	{
-    
         $pager = \Config\Services::pager();
 		$model = new Menu_M();
 		
@@ -19,9 +18,7 @@ class Menu extends BaseController
             'pager' => $model->pager
 		];
 
-		return view("menu/select",$data);
-    
-   
+		return view("menu/select",$data);   
     }
 
     public function read()
@@ -42,12 +39,7 @@ class Menu extends BaseController
                $mulai = ($tampil * $page) - $tampil;
             }
 
-           
-
             $menu = $model->where('idkategori', $id)->findAll($tampil, $mulai);
-
-
-
 
             $data = [
                 'judul' => 'DATA PENCARIAN MENU',
@@ -70,7 +62,6 @@ class Menu extends BaseController
 			'kategori'=>$kategori
 		];
 		return view("menu/insert",$data);
-		
 	}
     
     public function insert()
@@ -87,11 +78,8 @@ class Menu extends BaseController
             'harga' => $request->getPost('harga')
         ];
 
-      
-
         $model = new Menu_M();
        
-
         if ($model-> insert($data)===false) {
             $error = $model->errors();
 			session()->setFlashdata('info', $error);
@@ -100,18 +88,6 @@ class Menu extends BaseController
             $file->move('./upload');
         return redirect()->to(base_url("/Admin/menu"));
         }
-        
-       
-        
-
-
-		// if ($model-> insert($_POST)===false) {
-		// 	$error = $model->errors();
-		// 	session()->setFlashdata('info', $error['kategori']);
-		// 	return redirect()->to(base_url("/Admin/kategori/create"));
-		// } else {
-		// 	return redirect()->to(base_url("/Admin/kategori"));
-		// }
 		
     }
     
@@ -122,7 +98,6 @@ class Menu extends BaseController
 
         $kategorimodel = new kategori_M();
 		$kategori = $kategorimodel->findALL();
-
 
 		$data = [
 			'judul' => 'UPDATE DATA ',
@@ -144,8 +119,6 @@ class Menu extends BaseController
             $file->move('./upload');
         }
 
-        
-
         $data = [
             'idkategori' => $this->request->getPost('idkategori'),
             'menu' => $this->request->getPost('menu'),
@@ -155,16 +128,13 @@ class Menu extends BaseController
 
         $model = new Menu_M();
        
-       
         if ( $model-> update($id,$data)===false) {
             $error = $model->errors();
 			session()->setFlashdata('info', $error);
 			return redirect()->to(base_url("/Admin/menu/find/$id"));
         } else {
             return redirect()->to(base_url("/Admin/menu"));
-
         }
-        
     }
 
     public function option()
@@ -182,10 +152,6 @@ class Menu extends BaseController
 		$model = new Menu_M();
 		$model-> delete($id);
 		return redirect()->to(base_url("/Admin/menu"));
-
-		
 	}
-
-	//--------------------------------------------------------------------
 
 }

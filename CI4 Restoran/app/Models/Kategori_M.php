@@ -20,8 +20,6 @@ class kategori_M extends Model
             'is_unique' => 'Ada data yang sama!'
         ]
     ];
-
-
 }
 
 

@@ -38,36 +38,29 @@
 <div class="col">
 
 <table class="table">
+    <tr>
+        <th>No</th>
+        <th>Kategori</th>
+        <th>Keterangan</th>
+        <th>Aksi</th>
+    </tr>
 
-<tr>
-    <th>No</th>
-    <th>Kategori</th>
-    <th>Keterangan</th>
-    <th>Aksi</th>
-  
+    <?php $no ?>
+    <?php foreach($kategori as $key => $value): ?>
+    <tr>
+        <td><?= $no++ ?></td>
+        <td><?= $value['kategori'] ?></td>
+        <td><?= $value['keterangan'] ?></td>
+        <td><a href="<?= base_url()?>/Admin/kategori/delete/<?= $value['idkategori']?>"><img src="<?=base_url('/icon/can.svg')?>"></a>
+        <a href="<?= base_url()?>/Admin/kategori/find/<?= $value['idkategori']?>"><img src="<?=base_url('/icon/pen.svg')?>"></a></td>
 
-</tr>
-<?php $no ?>
-<?php foreach($kategori as $key => $value): ?>
-<tr>
-
-    <td><?= $no++ ?></td>
-    <td><?= $value['kategori'] ?></td>
-    <td><?= $value['keterangan'] ?></td>
-    <td><a href="<?= base_url()?>/Admin/kategori/delete/<?= $value['idkategori']?>"><img src="<?=base_url('/icon/can.svg')?>"></a>
-    <a href="<?= base_url()?>/Admin/kategori/find/<?= $value['idkategori']?>"><img src="<?=base_url('/icon/pen.svg')?>"></a></td>
-
-</tr>
-<?php endforeach; ?>
-
+    </tr>
+    <?php endforeach; ?>
 </table>
-
-
 
 <?= $pager->links('page','bootstrap') ?>
 </div>
 
 </div>
-
 
 <?= $this->endSection() ?>

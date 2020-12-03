@@ -9,9 +9,6 @@
 
 <div class="row">
 
-
-
-
 <h1> Upload Gambar</h1>
 
 <form action="<?= base_url('/Admin/menu/insert')?>" method="post" enctype="multipart/form-data">

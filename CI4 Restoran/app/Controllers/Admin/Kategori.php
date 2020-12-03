@@ -7,14 +7,11 @@ class kategori extends BaseController
 {
 	public function index()
 	{
-		// return view('welcome_message');
-
 		echo "belajar";
 	}
 
 	public function read()
 	{
-
 		$pager = \Config\Services::pager();
 		$model = new kategori_M();
 		
@@ -24,21 +21,16 @@ class kategori extends BaseController
 			'kategori' => $model->paginate(3,'page'),
             'pager' => $model->pager
 		];
-
 		return view("kategori/select",$data);
-		
 	}
 
 	public function create()
 	{
-		
 		return view("kategori/insert");
-		
 	}
 
 	public function insert()
-	{
-	
+	{	
 		$model = new kategori_M();
 
 		if ($model-> insert($_POST)===false) {
@@ -48,10 +40,7 @@ class kategori extends BaseController
 		} else {
 			return redirect()->to(base_url("/Admin/kategori"));
 		}
-		
-		
 
-		
 	}
 
 	public function find($id = null)
@@ -68,11 +57,9 @@ class kategori extends BaseController
 
 	public function update()
 	{
-		
 		$model = new kategori_M();
 		$id = $_POST['idkategori'];
 		
-
 		if ($model->save($_POST)===false) {
 			$error = $model->errors();
 			session()->setFlashdata('info', $error['kategori']);
@@ -87,8 +74,6 @@ class kategori extends BaseController
 		$model = new kategori_M();
 		$model-> delete($id);
 		return redirect()->to(base_url("/Admin/kategori"));
-
-		
 	}
 
 	

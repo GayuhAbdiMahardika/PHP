@@ -43,9 +43,6 @@
 
 </div>
 
-
-
-
 <div class="row mt-2">
 
 <div class="col">
@@ -59,7 +56,6 @@
     <th>Harga</th>
     <th>Aksi</th>
   
-
 </tr>
 <?php $no ?>
 <?php foreach($menu as $key => $value): ?>
@@ -79,12 +75,8 @@
 
 <?= $pager->makeLinks(1, $tampil, $total, 'bootstrap') ?>
 
-
-
-
 </div>
 
 </div>
-
 
 <?= $this->endSection() ?>

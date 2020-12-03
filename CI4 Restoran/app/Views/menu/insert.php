@@ -19,7 +19,6 @@
 ?>
 </div>
 
-
 <div class="col">
 <h3> Insert Data</h3>
 </div>
